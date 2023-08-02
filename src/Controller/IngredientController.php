@@ -71,10 +71,15 @@ class IngredientController extends AbstractController
     }
 
     /**
-     * 
+     * This controller show form which update existent ingredient
+     *
+     * @param Ingredient $ingredient
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
      */
     #[Route('/ingredient/edition/{id}', name: 'ingredient.edit', methods: ['GET', 'POST'])]
-    public function edit(IngredientRepository $repository, Ingredient $ingredient, Request $request, EntityManagerInterface $manager): Response
+    public function edit(Ingredient $ingredient, Request $request, EntityManagerInterface $manager): Response
     {
         $form = $this->createForm(IngredientType::class, $ingredient);
         $form->handleRequest($request);
@@ -93,8 +98,15 @@ class IngredientController extends AbstractController
         ]);
     }
 
+    /**
+     * This controller delete existent ingredient
+     *
+     * @param Ingredient $ingredient
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route('/ingredient/suppression/{id}', name: 'ingredient.delete', methods: ['GET'])]
-    public function delete(EntityManagerInterface $manager,Ingredient $ingredient):Response
+    public function delete(EntityManagerInterface $manager, Ingredient $ingredient): Response
     {
 
         $manager->remove($ingredient);
