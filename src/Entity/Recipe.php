@@ -28,17 +28,17 @@ class Recipe
     #[ORM\Column(nullable: true)]
     #[Assert\LessThan(1441)]
     #[Assert\Positive()]
-    private ?int $time;
+    private ?int $time = null ;
 
     #[ORM\Column(nullable: true)]
     #[Assert\LessThan(51)]
     #[Assert\Positive()]
-    private ?int $numberPeople;
+    private ?int $numberPeople =null;
 
     #[ORM\Column(nullable: true)]
     #[Assert\LessThan(6)]
     #[Assert\Positive()]
-    private ?int $difficulty;
+    private ?int $difficulty = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank()]
@@ -47,7 +47,7 @@ class Recipe
     #[ORM\Column(nullable: true)]
     #[Assert\LessThan(1001)]
     #[Assert\Positive()]
-    private ?float $price;
+    private ?float $price = null;
 
 
     #[ORM\Column]
@@ -55,7 +55,7 @@ class Recipe
     private ?\DateTimeImmutable $createdAt;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updatedAt;
+    private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column]
     private ?bool $isFavorite;
