@@ -26,6 +26,26 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
+
+        //User
+        $users = [];
+        for ($k = 0; $k < 50; $k++) {
+
+            $user = new User();
+            $user
+                ->setFullName($this->faker->name())
+                ->setEmail($this->faker->email())
+                ->setRoles(['ROLE_User'])
+                ->setPlainPassword('password');
+            if ($k % 2 == 0) {
+                $user
+                    ->setPseudo($this->faker->firstName());
+            }
+            $users[] = $user;
+            $manager->persist($user);
+        }
+
+
         $ingredients = [];
         // Ingredient
         for ($i = 0; $i < 50; $i++) {
@@ -34,7 +54,8 @@ class AppFixtures extends Fixture
             $ingredient = new Ingredient();
             $ingredient
                 ->setName($this->faker->word())
-                ->setPrice(mt_rand(0, 100));
+                ->setPrice(mt_rand(0, 100))
+                ->setUser($users[mt_rand(0, count($users) -1)]);
             $ingredients[] = $ingredient;
             $manager->persist($ingredient);
         }
@@ -46,7 +67,8 @@ class AppFixtures extends Fixture
                 ->setName($this->faker->word())
                 ->setIsFavorite(mt_rand(0, 1))
                 ->setUpdatedAt(new  \DateTimeImmutable())
-                ->setDescription($this->faker->paragraph());
+                ->setDescription($this->faker->paragraph())
+                ->setUser($users[mt_rand(0, count($users) -1)]);
 
             if ($j % 2 == 0) {
                 $recipe->setTime(mt_rand(1, 1440))
@@ -62,22 +84,7 @@ class AppFixtures extends Fixture
         }
 
 
-        //User
-        for ($k = 0; $k < 50; $k++) {
 
-            $user = new User();
-            $user
-                ->setFullName($this->faker->name())
-                ->setEmail($this->faker->email())
-                ->setRoles(['ROLE_User'])
-                ->setPlainPassword('password');
-            if ($k % 2 == 0) {
-                $user
-                    ->setPseudo($this->faker->firstName());
-            }
-
-            $manager->persist($user);
-        }
         $manager->flush();
     }
 }

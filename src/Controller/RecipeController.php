@@ -14,12 +14,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class RecipeController extends AbstractController
 {
     /**
-     * This controller display all recipes
+     * This controller display all recipes of the  current user
      *
      * @param RecipeRepository $repository
      * @param PaginatorInterface $paginator
@@ -27,6 +27,7 @@ class RecipeController extends AbstractController
      * @return Response
      */
     #[Route('/recette', name: 'recipe.index', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function index(
         RecipeRepository $repository,
         PaginatorInterface $paginator,
@@ -34,7 +35,7 @@ class RecipeController extends AbstractController
     ): Response {
 
         $recipes = $paginator->paginate(
-            $repository->findAll(),
+            $repository->findBy(['user' => $this->getUser()]),
             $request->query->getInt('page', 1),
             10
         );
@@ -51,6 +52,7 @@ class RecipeController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
+    #[IsGranted('ROLE_USER')]
     #[Route('/recette/nouveau', name: 'recipe.new', methods: ['GET', 'POST'])]
     public function new(
         Request $request,
@@ -61,6 +63,7 @@ class RecipeController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $recipe = $form->getData();
+            $recipe->setUser($this->getUser());
             $manager->persist($recipe);
             $manager->flush();
             $this->addFlash(
@@ -83,8 +86,11 @@ class RecipeController extends AbstractController
      * @return Response
      */
     #[Route('/recette/edition/{id}', name: 'recipe.edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function edit(Recipe $recipe, Request $request, EntityManagerInterface $manager): Response
     {
+        if ($recipe->getUser() != $this->getUser())
+            return $this->redirectToRoute('recipe.index');
         $form = $this->createForm(RecipeType::class, $recipe);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -100,6 +106,7 @@ class RecipeController extends AbstractController
         return $this->render('pages/recipe/edit.html.twig', [
             'form' => $form->createView()
         ]);
+
     }
 
     /**
@@ -110,9 +117,11 @@ class RecipeController extends AbstractController
      * @return Response
      */
     #[Route('/recette/suppression/{id}', name: 'recipe.delete', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function delete(EntityManagerInterface $manager, Recipe $recipe): Response
     {
-
+        if ($recipe->getUser() != $this->getUser())
+            return $this->redirectToRoute('recipe.index');
         $manager->remove($recipe);
         $manager->flush();
         $this->addFlash(
