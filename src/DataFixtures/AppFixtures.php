@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Ingredient;
+use App\Entity\Mark;
 use App\Entity\Recipe;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -47,6 +48,7 @@ class AppFixtures extends Fixture
 
 
         $ingredients = [];
+        $recipes = [];
         // Ingredient
         for ($i = 0; $i < 50; $i++) {
 
@@ -55,7 +57,7 @@ class AppFixtures extends Fixture
             $ingredient
                 ->setName($this->faker->word())
                 ->setPrice(mt_rand(0, 100))
-                ->setUser($users[mt_rand(0, count($users) -1)]);
+                ->setUser($users[mt_rand(0, count($users) - 1)]);
             $ingredients[] = $ingredient;
             $manager->persist($ingredient);
         }
@@ -63,12 +65,14 @@ class AppFixtures extends Fixture
         for ($j = 0; $j < 25; $j++) {
 
             $recipe = new Recipe();
+            $recipes[] = $recipe;
             $recipe
                 ->setName($this->faker->word())
                 ->setIsFavorite(mt_rand(0, 1))
+                ->setIsPublic(mt_rand(0, 1))
                 ->setUpdatedAt(new  \DateTimeImmutable())
                 ->setDescription($this->faker->paragraph())
-                ->setUser($users[mt_rand(0, count($users) -1)]);
+                ->setUser($users[mt_rand(0, count($users) - 1)]);
 
             if ($j % 2 == 0) {
                 $recipe->setTime(mt_rand(1, 1440))
@@ -83,8 +87,18 @@ class AppFixtures extends Fixture
             $manager->persist($recipe);
         }
 
+        //Mark
 
-
+        foreach ($recipes as $recipe) {
+            for ($i = 0; $i < mt_rand(0, 4); $i++) {
+                $mark = new Mark();
+                $mark->setMark(mt_rand(1, 5))
+                    ->setUser($users[mt_rand(0, count($users) - 1)])
+                    ->setRecipe($recipe);
+                $manager->persist($mark);
+                $recipe->setIsPublic(1);
+            }
+        }
         $manager->flush();
     }
 }

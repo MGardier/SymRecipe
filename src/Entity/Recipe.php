@@ -18,22 +18,22 @@ class Recipe
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id ;
+    private ?int $id;
 
     #[ORM\Column(length: 50)]
-    #[Assert\Length(min:2, max:50)]
+    #[Assert\Length(min: 2, max: 50)]
     #[Assert\NotBlank()]
     private ?string $name;
 
     #[ORM\Column(nullable: true)]
     #[Assert\LessThan(1441)]
     #[Assert\Positive()]
-    private ?int $time = null ;
+    private ?int $time = null;
 
     #[ORM\Column(nullable: true)]
     #[Assert\LessThan(51)]
     #[Assert\Positive()]
-    private ?int $numberPeople =null;
+    private ?int $numberPeople = null;
 
     #[ORM\Column(nullable: true)]
     #[Assert\LessThan(6)]
@@ -60,18 +60,30 @@ class Recipe
     #[ORM\Column]
     private ?bool $isFavorite;
 
+    #[ORM\Column]
+    private ?bool $isPublic = null;
+
+
     #[ORM\ManyToMany(targetEntity: Ingredient::class, inversedBy: 'recipes')]
     private Collection $ingredients;
 
     #[ORM\ManyToOne(inversedBy: 'recipes')]
     private ?User $user = null;
 
+    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Mark::class, orphanRemoval: true)]
+    private Collection $marks;
+
+    private ?float $average = null;
+
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
         $this->ingredients = new ArrayCollection();
+        $this->marks = new ArrayCollection();
     }
+
     #[ORM\PrePersist]
     public function setUpdatedAtValue()
     {
@@ -179,7 +191,7 @@ class Recipe
         return $this;
     }
 
-    public function isIsFavorite(): ?bool
+    public function getIsFavorite(): ?bool
     {
         return $this->isFavorite;
     }
@@ -191,6 +203,17 @@ class Recipe
         return $this;
     }
 
+    public function getIsPublic(): ?bool
+    {
+        return $this->isPublic;
+    }
+
+    public function setIsPublic(bool $isPublic): static
+    {
+        $this->isPublic = $isPublic;
+
+        return $this;
+    }
     /**
      * @return Collection<int, Ingredient>
      */
@@ -214,7 +237,7 @@ class Recipe
 
         return $this;
     }
-    
+
     public function __toString()
     {
         return $this->name;
@@ -231,4 +254,51 @@ class Recipe
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Mark>
+     */
+    public function getMarks(): Collection
+    {
+        return $this->marks;
+    }
+
+    public function addMark(Mark $mark): static
+    {
+        if (!$this->marks->contains($mark)) {
+            $this->marks->add($mark);
+            $mark->setRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMark(Mark $mark): static
+    {
+        if ($this->marks->removeElement($mark)) {
+            // set the owning side to null (unless already changed)
+            if ($mark->getRecipe() === $this) {
+                $mark->setRecipe(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+    public function getAverage()
+    {
+        $marks = $this->marks;
+        if($marks->toArray() === [])
+            return $this->average = null;
+        
+        $total = 0;
+        foreach($marks as $mark)
+        {
+            $total += $mark->getMark();
+        }
+        return $this->average = $total / count($marks);
+    }
+
+
 }
