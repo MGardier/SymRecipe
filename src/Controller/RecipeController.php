@@ -47,7 +47,7 @@ class RecipeController extends AbstractController
         ]);
     }
 
-    
+
     /**
      * This controller display all the public recipes 
      *
@@ -56,8 +56,8 @@ class RecipeController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route('/recette/publique', name: 'recipe.index.public', methods: ['GET'])]
-    public function indexPublic(
+    #[Route('/recette/communaute', name: 'recipe.community', methods: ['GET'])]
+    public function indexCommunity(
         RecipeRepository $repository,
         PaginatorInterface $paginator,
         Request $request
@@ -68,7 +68,7 @@ class RecipeController extends AbstractController
             $request->query->getInt('page', 1),
             10
         );
-        return $this->render('pages/recipe/index_public.html.twig', [
+        return $this->render('pages/recipe/community.html.twig', [
             'recipes' => $recipes,
         ]);
     }
@@ -82,41 +82,42 @@ class RecipeController extends AbstractController
      * @return Response
      */
     #[IsGranted('ROLE_USER')]
-    #[Route('/recette/{id}', name: 'recipe.show', methods: ['GET', 'POST'])]
-    public function show(Recipe $recipe, Request $request, MarkRepository $markRepository, EntityManagerInterface $manager) : Response 
+    #[Route('/recette/voir/{id}', name: 'recipe.show', methods: ['GET', 'POST'])]
+    public function show(Recipe $recipe, Request $request, MarkRepository $markRepository, EntityManagerInterface $manager): Response
     {
-        $mark = new Mark();
-        $form = $this->createForm(MarkType::class,$mark);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            $mark->setUser($this->getUser())
-                ->setRecipe($recipe);
+        if ($recipe->getIsPublic()  || $recipe->getUser() === $this->getUser()) {
+            $mark = new Mark();
+            $form = $this->createForm(MarkType::class, $mark);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $mark->setUser($this->getUser())
+                    ->setRecipe($recipe);
 
-            $existingMark = $markRepository->findOneBy([
-                'user' => $this->getUser(),
-                'recipe' => $recipe,
+                $existingMark = $markRepository->findOneBy([
+                    'user' => $this->getUser(),
+                    'recipe' => $recipe,
+                ]);
+
+                if (!$existingMark)
+                    $manager->persist($mark);
+                else
+                    $existingMark->setMark($form->getData()->getMark());
+
+                $manager->flush();
+                $this->addFlash(
+                    'success',
+                    "Votre note a bien été  attribué avec succès"
+                );
+                return $this->redirectToRoute('recipe.show', ['id' => $recipe->getId()]);
+            }
+
+
+            return $this->render('pages/recipe/show.html.twig', [
+                'recipe'   => $recipe,
+                'form'     => $form->createView()
             ]);
-
-            if(!$existingMark)
-                $manager->persist($mark);
-            else
-                $existingMark->setMark($form->getData()->getMark());
-
-            $manager->flush();
-            $this->addFlash(
-                'success',
-                "Votre note a bien été  attribué avec succès"
-            );
-            return $this->redirectToRoute('recipe.show',['id' => $recipe->getId()]);
-            
-        }
-        if (!$recipe->getIsPublic())
+        } else
             return $this->redirectToRoute('recipe.index');
-        return $this->render('pages/recipe/show.html.twig', [
-            'recipe'   => $recipe,
-            'form'     => $form->createView()
-        ]);
     }
 
 
@@ -128,13 +129,13 @@ class RecipeController extends AbstractController
      * @return Response
      */
     #[IsGranted('ROLE_USER')]
-    #[Route('/recette/nouveau', name: 'recipe.new', methods: ['GET', 'POST'])]
-    public function new(
+    #[Route('/recette/creation', name: 'recipe.create', methods: ['GET', 'POST'])]
+    public function create(
         Request $request,
         EntityManagerInterface $manager
     ): Response {
         $recipe = new Recipe();
-        $form = $this->createForm(RecipeType::class, $recipe);
+        $form = $this->createForm(RecipeType::class, $recipe, ['route' => 'create']);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $recipe = $form->getData();
@@ -147,7 +148,7 @@ class RecipeController extends AbstractController
             );
             return $this->redirectToRoute('recipe.index');
         }
-        return $this->render('pages/recipe/new.html.twig', [
+        return $this->render('pages/recipe/create.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -160,13 +161,13 @@ class RecipeController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    #[Route('/recette/edition/{id}', name: 'recipe.edit', methods: ['GET', 'POST'])]
+    #[Route('/recette/modification/{id}', name: 'recipe.update', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Recipe $recipe, Request $request, EntityManagerInterface $manager): Response
+    public function update(Recipe $recipe, Request $request, EntityManagerInterface $manager): Response
     {
         if ($recipe->getUser() != $this->getUser())
             return $this->redirectToRoute('recipe.index');
-        $form = $this->createForm(RecipeType::class, $recipe);
+        $form = $this->createForm(RecipeType::class, $recipe, ['route' => 'update']);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $recipe = $form->getData();
@@ -178,10 +179,9 @@ class RecipeController extends AbstractController
             );
             return $this->redirectToRoute('recipe.index');
         }
-        return $this->render('pages/recipe/edit.html.twig', [
+        return $this->render('pages/recipe/update.html.twig', [
             'form' => $form->createView()
         ]);
-
     }
 
     /**

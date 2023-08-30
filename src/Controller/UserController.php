@@ -27,9 +27,9 @@ class UserController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    #[Route('/utilisateur/edition/{id}', name: 'user.edit', methods: ['GET', 'POST'])]
+    #[Route('/utilisateur/modification/{id}', name: 'user.update', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(User $user, Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher): Response
+    public function update(User $user, Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher): Response
     {
 
         if ($this->getUser() !== $user)
@@ -53,18 +53,17 @@ class UserController extends AbstractController
             }
         }
 
-        return $this->render('pages/user/edit.html.twig', [
+        return $this->render('pages/user/update.html.twig', [
             'form' => $form,
         ]);
     }
 
-    #[Route('/utilisateur/edition-mot-de-passe/{id}', name: 'user.edit.password', methods: ['GET', 'POST'])]
-    public function editPassword(User $user, Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher) :Response
+    #[Route('/utilisateur/modification-mot-de-passe/{id}', name: 'user.update.password', methods: ['GET', 'POST'])]
+    public function updatePassword(User $user, Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher): Response
     {
         $form = $this->createForm(UserPasswordType::class);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             if ($hasher->isPasswordValid($user, $form->getData()['plainPassword'])) {
                 $user->setPlainPassword($form->getData()['newPassword']);
                 $user->setUpdatedAt(new \DateTimeImmutable());
@@ -81,7 +80,7 @@ class UserController extends AbstractController
                 );
             }
         }
-        return $this->render('pages/user/edit_password.html.twig', [
+        return $this->render('pages/user/update_password.html.twig', [
             'form' => $form,
         ]);
     }

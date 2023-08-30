@@ -22,17 +22,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id;
 
     #[ORM\Column(length: 50)]
-    #[Assert\Length(min: 2, max: 50)]
-    #[Assert\NotBlank()]
+    #[Assert\Length(min: 2, max: 180, minMessage: '', maxMessage: '')]
+    #[Assert\NotBlank(message: '')]
     private ?string $fullName;
 
     #[ORM\Column(length: 50, nullable: true)]
-    #[Assert\Length(min: 2, max: 50)]
+    #[Assert\Length(min: 2, max: 50, minMessage: '', maxMessage: '')]
     private ?string $pseudo = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Assert\Length(min: 2, max: 180)]
-    #[Assert\Email()]
+    #[Assert\Length(min: 2, max: 50, minMessage: '', maxMessage: '')]
+    #[Assert\Email(message: ' ')]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -45,13 +45,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank(message: '')]
     private ?string $password = 'password';
 
 
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    #[Assert\NotBlank()]
+    private ?\DateTimeImmutable $createdAt ;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;

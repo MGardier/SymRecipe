@@ -19,21 +19,31 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class RecipeType extends AbstractType
 {
-  
+
 
     private $token;
 
     public function __construct(TokenStorageInterface $token)
     {
-       $this->token = $token;
+        $this->token = $token;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+
+        $labelSubmit = "";
+        switch ($options['route']) {
+            case 'create':
+                $labelSubmit = "Créer une recette";
+                break;
+            case 'update':
+                $labelSubmit = "Modifier une recette";
+                break;
+        }
         $builder
             ->add('name', TextType::class, [
                 'attr' => [
@@ -140,6 +150,12 @@ class RecipeType extends AbstractType
                     ]
                 ]
             )
+            ->add('imageFile', VichImageType::class, [
+                'label' => 'Image de la recette',
+                'label_attr' => [
+                    'class' => 'form_label mt-4'
+                ]
+            ])
             ->add(
                 'ingredients',
                 EntityType::class,
@@ -149,7 +165,7 @@ class RecipeType extends AbstractType
                         return $repository->createQueryBuilder('i')
                             ->where('i.user = :user')
                             ->orderBy('i.name', 'ASC')
-                            ->setParameter(':user',$this->token->getToken()->getUser());
+                            ->setParameter(':user', $this->token->getToken()->getUser());
                     },
                     'label' => 'Les ingrédients',
                     'label_attr' => [
@@ -164,7 +180,7 @@ class RecipeType extends AbstractType
                 'attr' => [
                     'class' => 'btn btn-primary mt-4 mb-4',
                 ],
-                'label' => 'Créer ma recette'
+                'label' => $labelSubmit
             ]);
     }
 
@@ -172,6 +188,7 @@ class RecipeType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Recipe::class,
+            'route' => null,
         ]);
     }
 }

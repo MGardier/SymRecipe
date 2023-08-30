@@ -15,8 +15,17 @@ class IngredientType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $labelSubmit = "";
+        switch ($options['route']) {
+            case 'create':
+                $labelSubmit = "Créer un ingrédient";
+                break;
+            case 'update':
+                $labelSubmit = "Modifier un ingrédient";
+                break;
+        }
         $builder
-            ->add('name',TextType::class,[
+            ->add('name', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'minlenght' => '2',
@@ -27,11 +36,11 @@ class IngredientType extends AbstractType
                     'class' => 'form-label mt-4'
                 ],
                 'constraints' => [
-                    new Assert\Length(['min'=> 2, 'max' => 50]),
+                    new Assert\Length(['min' => 2, 'max' => 50]),
                     new Assert\NotBlank()
                 ]
             ])
-            ->add('price',MoneyType::class,[
+            ->add('price', MoneyType::class, [
                 'attr' => [
                     'class' => 'form-control',
                 ],
@@ -45,18 +54,18 @@ class IngredientType extends AbstractType
                 ]
             ])
 
-            ->add('submit', SubmitType::class,[
+            ->add('submit', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-primary mt-4',
                 ],
-                'label' => 'Créer mon ingrédient'
-            ])
-        ;
+                'label' => $labelSubmit
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
+            'route' => null,
             'data_class' => Ingredient::class,
         ]);
     }

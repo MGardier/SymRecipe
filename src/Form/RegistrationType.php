@@ -22,18 +22,20 @@ class RegistrationType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                     'minlenght' => 2,
-                    'maxlenght' => 50,
+                    'maxlenght' => 180,
                 ],
                 'label' => 'Nom / Prénom',
                 'label_attr' => [
                     'class' => 'form-label mt-4',
                 ],
                 'constraints' => [
-                    new Assert\Length(['min' => 2, 'max' => 50]),
-                    new Assert\NotBlank()
+                    new Assert\Length([
+                        'min' => 2, 
+                        'max' => 180, 
+                        'maxMessage'=> 'Le nom et le prénom  ne doivent pas dépasser 180 caractères.', 
+                        'minMessage'=> 'Le nom et le prénom doivent faire au minimum 2 caractères.']),
+                    new Assert\NotBlank(['message' => 'Le nom et le prénom ne peuvent pas être vide.'])
                 ]
-
-
             ])
             ->add('pseudo',TextType::class,[
                 'attr' => [
@@ -47,7 +49,11 @@ class RegistrationType extends AbstractType
                     'class' => 'form-label mt-4',
                 ],
                 'constraints' => [
-                    new Assert\Length(['min' => 2, 'max' => 50]),
+                    new Assert\Length([
+                        'min' => 2, 
+                        'max' => 50,
+                        'maxMessage'=> 'Le pseudo ne doit pas dépasser 50 caractères.', 
+                        'minMessage'=> 'Le pseudo doit faire au minimum 2 caractères.']),
                 ]
 
 
@@ -63,8 +69,12 @@ class RegistrationType extends AbstractType
                     'class' => 'form-label mt-4',
                 ],
                 'constraints' => [
-                    new Assert\Length(['min' => 2, 'max' => 50]),
-                    new Assert\NotBlank()
+                    new Assert\Length([
+                        'min' => 2, 
+                        'max' => 180, 
+                        'maxMessage'=> 'L\'email ne doit pas dépasser 180 caractères.', 
+                        'minMessage'=> 'Le pseudo doit faire au minimum 2 caractères.']),
+                    new Assert\NotBlank(['message' => 'L\'email n\'est pas valide.'])
                 ]
 
 

@@ -48,12 +48,12 @@ class IngredientController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    #[Route('/ingredient/nouveau', name: 'ingredient.new', methods: ['GET', 'POST'])]
+    #[Route('/ingredient/creation', name: 'ingredient.create', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, EntityManagerInterface $manager): Response
+    public function create(Request $request, EntityManagerInterface $manager): Response
     {
         $ingredient = new Ingredient();
-        $form = $this->createForm(IngredientType::class, $ingredient);
+        $form = $this->createForm(IngredientType::class, $ingredient, ['route' => 'create']);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $ingredient = $form->getData();
@@ -66,7 +66,7 @@ class IngredientController extends AbstractController
             );
             return $this->redirectToRoute('ingredient.index');
         }
-        return $this->render('pages/ingredient/new.html.twig', [
+        return $this->render('pages/ingredient/create.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -79,13 +79,13 @@ class IngredientController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    #[Route('/ingredient/edition/{id}', name: 'ingredient.edit', methods: ['GET', 'POST'])]
+    #[Route('/ingredient/modification/{id}', name: 'ingredient.update', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Ingredient $ingredient, Request $request, EntityManagerInterface $manager): Response
+    public function update(Ingredient $ingredient, Request $request, EntityManagerInterface $manager): Response
     {
         if ($ingredient->getUser() != $this->getUser())
             return $this->redirectToRoute('ingredient.index');
-        $form = $this->createForm(IngredientType::class, $ingredient);
+        $form = $this->createForm(IngredientType::class, $ingredient, ['route' => 'update']);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $ingredient = $form->getData();
@@ -97,7 +97,7 @@ class IngredientController extends AbstractController
             );
             return $this->redirectToRoute('ingredient.index');
         }
-        return $this->render('pages/ingredient/edit.html.twig', [
+        return $this->render('pages/ingredient/update.html.twig', [
             'form' => $form->createView()
         ]);
     }

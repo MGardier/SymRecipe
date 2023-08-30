@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Symrecipe - Mes recettes
-{% endblock %}
+{% block title %}Symrecipe - Recettes de la communauté
 
 {% block body %}
 
@@ -19,12 +18,13 @@
 			</div>
 			<div class="d-flex justify-content-center flex-wrap">
 				{% for recipe in recipes %}
-					<div class="card border-primary mb-3" style="max-width: 20rem;" >
+					<div class="card border-primary mb-3" style="max-width: 20rem;">
 						<div class="card-header">Recette N°{{recipe.id }}</div>
 						<div class="card-body">
 							<h4 class="card-title">{{recipe.name }}</h4>
 							<p class="card-text">{{recipe.description|slice(0,100) ~ '...' }}</p>
 						</div>
+
 					</div>
 				{% endfor %}
 			</div>
@@ -37,4 +37,3 @@
 	</div>
 
 {% endblock %}
-
