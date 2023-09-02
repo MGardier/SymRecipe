@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Contact;
 use App\Entity\Ingredient;
 use App\Entity\Mark;
 use App\Entity\Recipe;
@@ -88,7 +89,6 @@ class AppFixtures extends Fixture
         }
 
         //Mark
-
         foreach ($recipes as $recipe) {
             for ($i = 0; $i < mt_rand(0, 4); $i++) {
                 $mark = new Mark();
@@ -98,6 +98,17 @@ class AppFixtures extends Fixture
                 $manager->persist($mark);
                 $recipe->setIsPublic(1);
             }
+        }
+
+        //Contact
+
+        for ($i = 0; $i < 5; $i++) {
+            $contact = new Contact();
+            $contact->setFullName($this->faker->name())
+                ->setEmail($this->faker->email())
+                ->setSubject('Demande n°' . ($i + 1))
+                ->setMessage($this->faker->text());
+            $manager->persist($contact);
         }
         $manager->flush();
     }

@@ -21,7 +21,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 180)]
     #[Assert\Length(min: 2, max: 180, minMessage: '', maxMessage: '')]
     #[Assert\NotBlank(message: '')]
     private ?string $fullName;
@@ -52,7 +52,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     #[Assert\NotBlank()]
-    private ?\DateTimeImmutable $createdAt ;
+    private ?\DateTimeImmutable $createdAt;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
@@ -195,7 +195,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
 
-    
+
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
