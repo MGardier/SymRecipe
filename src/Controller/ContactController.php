@@ -4,19 +4,19 @@ namespace App\Controller;
 
 use App\Entity\Contact;
 use App\Form\ContactType;
+use App\Service\MailService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Mime\Address;
-use Symfony\Component\Mailer\MailerInterface;
+
 
 class ContactController extends AbstractController
 {
     #[Route('/contact', name: 'contact.create')]
-    public function create(Request $request, EntityManagerInterface $manager, MailerInterface $mailer): Response
+    public function create(Request $request, EntityManagerInterface $manager, MailService $mailService): Response
     {
         $contact = new Contact();
         if ($this->getUser()) {
@@ -26,7 +26,6 @@ class ContactController extends AbstractController
         }
         $form = $this->createForm(ContactType::class, $contact);
         $form->handleRequest($request);
-        dump($contact);
         if ($form->isSubmitted() && $form->isValid()) {
             $contact = $form->getData();
 
@@ -34,15 +33,13 @@ class ContactController extends AbstractController
             //$manager->flush();
 
             //email
-            $email = (new TemplatedEmail())
-                ->from(new Address($contact->getEmail(), 'Mailtrap'))
-                ->to('adminSymrecipe@gmail.com')
-                ->subject($contact->getSubject())
-                ->htmlTemplate('emails/contact.html.twig')
-                ->context([
-                    'contact' => $contact
-                ]);
-            $mailer->send($email);
+
+            $mailService->sendEmail(
+                $contact->getEmail(),
+                $contact->getSubject(),
+                'pages/emails/contact.html.twig',
+                ['contact' => $contact]
+            );
             $this->addFlash(
                 'success',
                 "Votre message a été  transmis avec succès"

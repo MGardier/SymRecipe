@@ -40,24 +40,32 @@
 								{{app.user.fullName }}
 							</a>
 							<div class="dropdown-menu mt-3" aria-labelledby="navbarDropdown">
-								<a class="dropdown-item " href="{{ path('user.update',{id : app.user.id})}}">Modifier mes informations</a>
-								<a class="dropdown-item " href="{{ path('user.update.password',{id : app.user.id})}}">Modifier mon mot de passe</a>
-								<a class="dropdown-item " href="{{ path('contact.create')}}">Nous contacter</a>
+
+								{% if 'ROLE_ADMIN' in app.user.roles %}
+									<a class="dropdown-item " href="{{ path('admin')}}">Administration</a>
+									<a class="dropdown-item " href="{{ path('user.update.password',{id : app.user.id})}}">Modifier mon mot de passe</a>
+								{% else %}
+									<a class="dropdown-item " href="{{ path('contact.create')}}">Nous contacter</a>
+									<a class="dropdown-item " href="{{ path('user.update',{id : app.user.id})}}">Modifier mes informations</a>
+									<a class="dropdown-item " href="{{ path('user.update.password',{id : app.user.id})}}">Modifier mon mot de passe</a>
+
+								{% endif %}
+
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item " href="{{ path('security.logout')}}">Déconnexion</a>
 							</div>
 						</li>
+					</li>
+					<li class="nav-item dropdown">
+					{% else %}
+						<li class="nav-item">
+							<a class="nav-link active text-white" href="{{ path('security.registration')}}">Inscription
+							</a>
+						</li>
 
-						<li class="nav-item dropdown">
-						{% else %}
-							<li class="nav-item">
-								<a class="nav-link active text-white" href="{{ path('security.registration')}}">Inscription
-								</a>
-							</li>
-
-						{% endif %}
-					</ul>
-				</div>
+					{% endif %}
+				</ul>
 			</div>
-		</nav>
-		<!-- end navbar-->
+		</div>
+	</nav>
+	<!-- end navbar-->
