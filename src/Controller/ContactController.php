@@ -29,8 +29,8 @@ class ContactController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $contact = $form->getData();
 
-            //$manager->persist($contact);
-            //$manager->flush();
+            $manager->persist($contact);
+            $manager->flush();
 
             //email
 
@@ -42,7 +42,7 @@ class ContactController extends AbstractController
             );
             $this->addFlash(
                 'success',
-                "Votre message a été  transmis avec succès"
+                "Votre demande a été envoyé avec succès !"
             );
             return $this->redirectToRoute('contact.create');
         }
