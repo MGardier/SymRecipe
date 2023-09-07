@@ -16,6 +16,7 @@ class ContactTest extends WebTestCase
         $this->assertSelectorTextContains('h1', 'Formulaire de contact');
 
         $submitButton = $crawler->selectButton('Envoyer');
+
         //Get form
         $form = $submitButton->form();
 
@@ -25,14 +26,14 @@ class ContactTest extends WebTestCase
         $form["contact[subject]"] = "Test";
         $form["contact[message]"] = "Test";
 
-        //Send form
         $client->submit($form);
 
-        //Check status HTTP
+        //Check status HTTP is 302
         $this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
 
         //Check email 
         $this->assertEmailCount(1);
+
         $client->followRedirect();
 
         //Check success message
