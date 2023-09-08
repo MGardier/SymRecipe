@@ -14,10 +14,12 @@ use Doctrine\ORM\EntityRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use LDAP\Result;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\Cache\ItemInterface;
 
 class RecipeController extends AbstractController
 {
@@ -62,9 +64,17 @@ class RecipeController extends AbstractController
         PaginatorInterface $paginator,
         Request $request
     ): Response {
+        //Add cache system to get public recipes 
+        $cache = new FilesystemAdapter();
+        //who expired after 15 sec  with key controller_object (indexCommunity_recipes)
+        $data = $cache->get('indexCommunity_recipes', function (ItemInterface $item) use ($repository) {
+            $item->expiresAfter(15);
+            //get Public recipes without specify how many
+            return $repository->findPublicRecipe();
+        });
 
         $recipes = $paginator->paginate(
-            $repository->findPublicRecipe(null),
+            $data,
             $request->query->getInt('page', 1),
             10
         );
