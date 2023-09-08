@@ -2,12 +2,13 @@
 
 namespace App\Tests\Functional;
 
-use App\Entity\Ingredient;
 use App\Entity\User;
+use App\Entity\Ingredient;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class IngredientTest extends WebTestCase
 {
@@ -168,7 +169,7 @@ class IngredientTest extends WebTestCase
         /** @var UrlGeneratorInterface $urlGenerator */
         $urlGenerator = $client->getContainer()->get('router');
 
-        //Recup entity manager
+        //Get entity manager
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get('doctrine.orm.entity_manager');
 

@@ -31,6 +31,6 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Utilisateurs', 'fa fa-bowl-rice', User::class);
-        yield MenuItem::linkToCrud('Demande de contact', 'fa fa-envelope', Contact::class);
+        yield MenuItem::linkToCrud('Demandes de contact', 'fa fa-envelope', Contact::class);
     }
 }
