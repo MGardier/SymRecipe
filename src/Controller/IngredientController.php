@@ -62,8 +62,9 @@ class IngredientController extends AbstractController
             $manager->flush();
             $this->addFlash(
                 'success',
-                "Votre ingrédient a été  créé avec succès"
+                'Votre ingrédient a été créé avec succès !'
             );
+
             return $this->redirectToRoute('ingredient.index');
         }
         return $this->render('pages/ingredient/create.html.twig', [
@@ -93,7 +94,7 @@ class IngredientController extends AbstractController
             $manager->flush();
             $this->addFlash(
                 'success',
-                "Votre ingrédient a été  modifié avec succès."
+                "Votre ingrédient a été modifié avec succès !"
             );
             return $this->redirectToRoute('ingredient.index');
         }
@@ -119,7 +120,7 @@ class IngredientController extends AbstractController
         $manager->flush();
         $this->addFlash(
             'success',
-            "Votre ingrédient a été  supprimé avec succès."
+            "Votre ingrédient a été supprimé avec succès !"
         );
         return $this->redirectToRoute('ingredient.index');
     }

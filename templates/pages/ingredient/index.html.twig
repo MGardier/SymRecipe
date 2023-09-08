@@ -7,17 +7,14 @@
 
 	<div class="container mt-4">
 		{% for message in app.flashes('success') %}
-			<div class="text-white alert alert-success">
-				{{message}}
+			<div class="alert alert-success mt-4">
+				{{ message }}
 			</div>
 		{% endfor %}
+		<h1 class="mt-4">Mes ingrédients</h1>
 		{% if not ingredients.items is same as([]) %}
-			<h1>
-				Mes ingrédients
-			</h1>
-
 			<div class="count">
-				<h4>
+				<h4 class="title-counter">
 					Il y a
 					{{ingredients.getTotalItemCount  }}
 					ingrédient(s) au total
@@ -26,31 +23,30 @@
 			<table class="table table-hover">
 				<thead>
 					<tr class="table-primary">
-						<th scope="col">Numéro</th>
-						<th scope="col">Nom</th>
-						<th scope="col">Prix</th>
-						<th scope="col">Date</th>
-						<th scope="col">Modifier</th>
-						<th scope="col">Supprimer</th>
+						<th class="th-id" scope="col">Numéro</th>
+						<th class="th-name" scope="col">Nom</th>
+						<th class="th-price" scope="col">Prix</th>
+						<th class="th-date" scope="col">Date</th>
+						<th class="th-update" scope="col">Modifier</th>
+						<th class="th-delete" scope="col">Supprimer</th>
 					</tr>
 				</thead>
-				{% for ingredient in ingredients %}
-					<tbody>
-						<tr>
-							<td>{{ingredient.id}}</td>
-							<td>{{ingredient.name}}</td>
-							<td>{{ingredient.price|number_format(2, '.', ',') }}€</td>
-							<td>{{ingredient.createdAt|date('d/m/Y')}}</td>
-							<td>
+				<tbody>
+					{% for ingredient in ingredients %}
+						<tr class="tr-ingredient">
+							<td class="data-ingredient">{{ingredient.id}}</td>
+							<td class="data-ingredient">{{ingredient.name}}</td>
+							<td class="data-ingredient">{{ingredient.price|number_format(2, '.', ',') }}€</td>
+							<td class="data-ingredient">{{ingredient.createdAt|date('d/m/Y')}}</td>
+							<td class="data-ingredient">
 								<a href="{{ path('ingredient.update', {id: ingredient.id}) }}" type="button" class="btn btn-outline-primary">Modifier</a>
 							</td>
-							<td>
+							<td class="data-ingredient">
 								<a href="{{ path('ingredient.delete', {id: ingredient.id}) }}" type="button" class="btn btn-outline-danger">Supprimer</a>
 							</td>
-
 						</tr>
-					</tbody>
-				{% endfor %}
+					{% endfor %}
+				</tbody>
 			</table>
 			<div class="navigation d-flex justify-content-center">
 				{{ knp_pagination_render(ingredients) }}

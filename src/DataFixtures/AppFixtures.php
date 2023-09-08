@@ -29,16 +29,26 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
 
-        //User
+        //array of Users
         $users = [];
+        //array of Ingredients
+        $ingredients = [];
 
         $admin = new User();
         $admin->setFullName('Administrateur')
             ->setEmail('admin@symrecipe.fr')
             ->setRoles(['ROLE_USER', 'ROLE_ADMIN'])
             ->setPlainPassword('password');
+        $ingredientAdmin = new Ingredient();
+        $ingredientAdmin->setName($this->faker->word())
+            ->setPrice(mt_rand(0, 100))
+            ->setUser($admin);
+
+
         $users[] = $admin;
+        $ingredients[] = $ingredientAdmin;
         $manager->persist($admin);
+        $manager->persist($ingredientAdmin);
 
         for ($k = 0; $k < 50; $k++) {
 
@@ -57,7 +67,7 @@ class AppFixtures extends Fixture
         }
 
 
-        $ingredients = [];
+
         $recipes = [];
         // Ingredient
         for ($i = 0; $i < 50; $i++) {
