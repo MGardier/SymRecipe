@@ -19,15 +19,15 @@ class Ingredient
     private ?int $id;
 
     #[ORM\Column(length: 50)]
-    #[Assert\Length(min:2, max:50)]
+    #[Assert\Length(min: 2, max: 50)]
     #[Assert\NotBlank()]
-    private ?string $name ;
+    private ?string $name;
 
     #[ORM\Column]
     #[Assert\Positive()]
     #[Assert\NotNull()]
     #[Assert\LessThan(200)]
-    private ?float $price ;
+    private ?float $price;
 
     #[ORM\Column]
     #[Assert\NotNull()]
@@ -48,7 +48,6 @@ class Ingredient
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->recipes = new ArrayCollection();
-     
     }
 
     public function getId(): ?int
@@ -61,7 +60,7 @@ class Ingredient
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -118,7 +117,7 @@ class Ingredient
 
         return $this;
     }
-    
+
     public function __toString()
     {
         return $this->name;
@@ -135,5 +134,4 @@ class Ingredient
 
         return $this;
     }
-
 }
