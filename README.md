@@ -4,9 +4,6 @@ SymRecipe est une application web qui permet aux utilisateurs de s'inscrire pour
 
 ## Installation
 
-EasyAdmin 4 requires PHP 8.0.2 or higher and Symfony 5.4 or higher. Run the
-following command to install it in your application:
-
 SymRecipe nécessite PHP 8.1 ou une version supérieur et Symfony 6.3 ou une version supérieur.
 Pour faire fonctionner l'application vous allez devoir utiliser les commandes suivantes:
 
