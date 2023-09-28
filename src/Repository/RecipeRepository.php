@@ -22,7 +22,7 @@ class RecipeRepository extends ServiceEntityRepository
     }
 
     /**
-     * this function allow us to find public recipes based on number recipes
+     * Allow us to find public recipes based on number recipes
      *
      * @param integer $nbRecipes
      * @return array

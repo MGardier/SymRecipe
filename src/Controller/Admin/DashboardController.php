@@ -11,6 +11,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
+/**
+ * manages administration reception
+ */
 class DashboardController extends AbstractDashboardController
 {
     #[Route('/admin', name: 'admin')]

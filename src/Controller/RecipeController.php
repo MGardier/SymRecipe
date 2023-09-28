@@ -51,7 +51,7 @@ class RecipeController extends AbstractController
 
 
     /**
-     * This controller display all the public recipes 
+     * This controller display al recipes shares with community
      *
      * @param RecipeRepository $repository
      * @param PaginatorInterface $paginator
@@ -85,7 +85,7 @@ class RecipeController extends AbstractController
 
 
     /**
-     * This controller show form which create new recipe
+     * This controller display a recipe
      *
      * @param Request $request
      * @param EntityManagerInterface $manager
@@ -132,7 +132,7 @@ class RecipeController extends AbstractController
 
 
     /**
-     * This controller show form which create new recipe
+     * This controller display form which create new recipe
      *
      * @param Request $request
      * @param EntityManagerInterface $manager
@@ -164,7 +164,7 @@ class RecipeController extends AbstractController
     }
 
     /**
-     * This controller show form which update existent recipe
+     * This controller display form which update existent recipe of user
      *
      * @param Recipe $recipe
      * @param Request $request
@@ -195,7 +195,7 @@ class RecipeController extends AbstractController
     }
 
     /**
-     * This controller delete existent recipe
+     * This controller remove existent recipe of user
      *
      * @param Recipe $recipe
      * @param EntityManagerInterface $manager

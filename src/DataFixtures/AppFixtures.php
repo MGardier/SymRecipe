@@ -12,6 +12,9 @@ use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Faker\Generator;
 
+/**
+ * Allow to store fake data in database
+ */
 class AppFixtures extends Fixture
 {
     /**

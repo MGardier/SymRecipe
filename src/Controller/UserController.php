@@ -19,7 +19,7 @@ class UserController extends AbstractController
 
 
     /**
-     * This controller allow us to eidt user's profile
+     * This controller allow user  to change his profile
      *
      * @param User $user
      * @param Request $request
@@ -58,9 +58,21 @@ class UserController extends AbstractController
         ]);
     }
 
+
+    /**
+     * Allow to user to change his password
+     *
+     * @param User $user
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param UserPasswordHasherInterface $hasher
+     * @return Response
+     */
     #[Route('/utilisateur/modification-mot-de-passe/{id}', name: 'user.update.password', methods: ['GET', 'POST'])]
     public function updatePassword(User $user, Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher): Response
     {
+        if ($this->getUser() !== $user)
+            return $this->redirectToRoute('home.index');
         $form = $this->createForm(UserPasswordType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

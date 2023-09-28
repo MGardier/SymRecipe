@@ -13,6 +13,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
+
+
+/**
+ * This command allow to create new admin
+ */
 #[AsCommand(
     name: 'app:create-administrator',
     description: 'Add a short description for your command',

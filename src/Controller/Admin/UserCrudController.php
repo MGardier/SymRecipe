@@ -11,6 +11,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 
+/**
+ * display users and allow admin to manage them
+ */
 class UserCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string

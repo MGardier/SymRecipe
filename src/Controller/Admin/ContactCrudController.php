@@ -12,6 +12,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
+/**
+ * Shows administrator contact requests
+ */
 class ContactCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string

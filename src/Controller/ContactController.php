@@ -11,15 +11,28 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
 class ContactController extends AbstractController
 {
+
+
+    /**
+     * This function allow to send message from user to admin 
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param MailService $mailService
+     * @return Response
+     */
     #[Route('/contact', name: 'contact.create')]
+    #[IsGranted('ROLE_USER')]
     public function create(Request $request, EntityManagerInterface $manager, MailService $mailService): Response
     {
         $contact = new Contact();
         if ($this->getUser()) {
+            /** @var User $user */
             $user = $this->getUser();
             $contact->setFullName($user->getFullName());
             $contact->setEmail($user->getEmail());
