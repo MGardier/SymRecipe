@@ -5,7 +5,7 @@
 
 {% block body %}
 
-	<div class="container mt-4">
+	<div class="container">
 
 		{% for message in app.flashes('success') %}
 			<div class="alert alert-success mt-4 alert-dismissible ">
@@ -15,54 +15,55 @@
 				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 			</div>
 		{% endfor %}
-		<h1 class="mt-4">Mes ingrédients</h1>
 		{% if not ingredients.items is same as([]) %}
-			<div class="count">
-				<h4 class="title-counter">
-					Il y a
+			<div class="content">
+				<h2 class="mb-3">Il y a
 					{{ingredients.getTotalItemCount  }}
-					ingrédient(s) au total
-				</h4>
-			</div>
-			<table class="table">
-				<thead class=" bg-info">
-					<tr class="">
-						<th class="th-id" scope="col">Numéro</th>
-						<th class="th-name" scope="col">Nom</th>
-						<th class="th-price" scope="col">Prix</th>
-						<th class="th-date" scope="col">Date</th>
-						<th class="th-update" scope="col">Modifier</th>
-						<th class="th-delete" scope="col">Supprimer</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for ingredient in ingredients %}
-						<tr class="tr-ingredient">
-							<td class="data-ingredient">{{ingredient.id}}</td>
-							<td class="data-ingredient">{{ingredient.name}}</td>
-							<td class="data-ingredient">{{ingredient.price|number_format(2, '.', ',') }}€</td>
-							<td class="data-ingredient">{{ingredient.createdAt|date('d/m/Y')}}</td>
-							<td class="data-ingredient">
-								<a href="{{ path('ingredient.update', {id: ingredient.id}) }}" type="button" class="btn btn-outline-info">Modifier</a>
-							</td>
-							<td class="data-ingredient">
-								<a href="{{ path('ingredient.delete', {id: ingredient.id}) }}" type="button" class="btn btn-outline-danger">Supprimer</a>
-							</td>
-						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-			<div class="navigation d-flex justify-content-center">
-				{{ knp_pagination_render(ingredients) }}
+					ingrédient(s) au total</h2>
+				<div class="table-responsive">
+					<table class="table custom-table">
+						<thead>
+							<tr>
+								<th class="th-id" scope="col">Numéro</th>
+								<th class="th-name" scope="col">Nom</th>
+								<th class="th-price" scope="col">Prix</th>
+								<th class="th-date" scope="col">Date</th>
+								<th class="th-update" scope="col">Modifier</th>
+								<th class="th-delete" scope="col">Supprimer</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for ingredient in ingredients %}
+								<tr class="tr-ingredient">
+									<td class="data-ingredient">{{ingredient.id}}</td>
+									<td class="data-ingredient">{{ingredient.name}}</td>
+									<td class="data-ingredient">{{ingredient.price|number_format(2, '.', ',') }}€</td>
+									<td class="data-ingredient">{{ingredient.createdAt|date('d/m/Y')}}</td>
+									<td class="data-ingredient">
+										<a href="{{ path('ingredient.update', {id: ingredient.id}) }}" type="button" class="btn btn-outline-success">Modifier</a>
+									</td>
+									<td class="data-ingredient">
+										<a href="{{ path('ingredient.delete', {id: ingredient.id}) }}" type="button" class="btn btn-outline-danger">Supprimer</a>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+				<a href="{{ path('ingredient.create')}}" class="btn btn-outline-info mb-2">
+					Ajouter un nouvel ingrédient</a>
+				<div class="navigation d-flex justify-content-center">
+					{{ knp_pagination_render(ingredients) }}
+				</div>
 			</div>
 		{% else %}
-			<h4>
-				Il n'y a pas d'ingrédients
-			</h4>
+			<div class="mt-2">
+				<h2>Il n'y a pas d'ingrédients</h2>
+				<a href="{{ path('ingredient.create')}}" class="btn btn-outline-info mt-2">
+					Ajouter un nouvel ingrédient</a>
+			</div>
 		{% endif %}
-		<a href="{{ path('ingredient.create')}}" class="btn btn-info mt-4">
-			Ajouter un nouvel ingrédient</a>
-	</div>
 
+	</div>
 
 {% endblock %}
