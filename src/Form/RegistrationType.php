@@ -18,7 +18,7 @@ class RegistrationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('fullName',TextType::class,[
+            ->add('fullName', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'minlenght' => 2,
@@ -30,14 +30,15 @@ class RegistrationType extends AbstractType
                 ],
                 'constraints' => [
                     new Assert\Length([
-                        'min' => 2, 
-                        'max' => 180, 
-                        'maxMessage'=> 'Le nom et le prénom  ne doivent pas dépasser 180 caractères.', 
-                        'minMessage'=> 'Le nom et le prénom doivent faire au minimum 2 caractères.']),
+                        'min' => 2,
+                        'max' => 180,
+                        'maxMessage' => 'Le nom et le prénom  ne doivent pas dépasser 180 caractères.',
+                        'minMessage' => 'Le nom et le prénom doivent faire au minimum 2 caractères.'
+                    ]),
                     new Assert\NotBlank(['message' => 'Le nom et le prénom ne peuvent pas être vide.'])
                 ]
             ])
-            ->add('pseudo',TextType::class,[
+            ->add('pseudo', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'minlenght' => 2,
@@ -50,15 +51,16 @@ class RegistrationType extends AbstractType
                 ],
                 'constraints' => [
                     new Assert\Length([
-                        'min' => 2, 
+                        'min' => 2,
                         'max' => 50,
-                        'maxMessage'=> 'Le pseudo ne doit pas dépasser 50 caractères.', 
-                        'minMessage'=> 'Le pseudo doit faire au minimum 2 caractères.']),
+                        'maxMessage' => 'Le pseudo ne doit pas dépasser 50 caractères.',
+                        'minMessage' => 'Le pseudo doit faire au minimum 2 caractères.'
+                    ]),
                 ]
 
 
             ])
-            ->add('email',EmailType::class,[
+            ->add('email', EmailType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'minlenght' => 2,
@@ -70,21 +72,22 @@ class RegistrationType extends AbstractType
                 ],
                 'constraints' => [
                     new Assert\Length([
-                        'min' => 2, 
-                        'max' => 180, 
-                        'maxMessage'=> 'L\'email ne doit pas dépasser 180 caractères.', 
-                        'minMessage'=> 'Le pseudo doit faire au minimum 2 caractères.']),
+                        'min' => 2,
+                        'max' => 180,
+                        'maxMessage' => 'L\'email ne doit pas dépasser 180 caractères.',
+                        'minMessage' => 'Le pseudo doit faire au minimum 2 caractères.'
+                    ]),
                     new Assert\NotBlank(['message' => 'L\'email n\'est pas valide.'])
                 ]
 
 
             ])
-            ->add('plainPassword',RepeatedType::class,[
+            ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'attr' => [
                     'class' => 'form-control',
                 ],
-                'first_options' =>[
+                'first_options' => [
                     'label' => 'Mot de passe',
                     'attr' => [
                         'class' => 'form-control',
@@ -104,14 +107,12 @@ class RegistrationType extends AbstractType
                 ],
                 'invalid_message' => 'Les mots de passe ne correspondent pas.'
             ])
-            ->add('submit',SubmitType::class,[
+            ->add('submit', SubmitType::class, [
                 'label' => 'S\'inscrire',
-                'attr'=>[
-                    'class' => 'btn btn-primary mt-4',
+                'attr' => [
+                    'class' => 'btn btn-info mt-4',
                 ]
-            ])
-
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

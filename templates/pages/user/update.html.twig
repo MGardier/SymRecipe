@@ -14,8 +14,11 @@
 			</div>
 		{% endfor %}
 		{% for message in app.flashes('success') %}
-			<div class="text-dark alert alert-success">
-				{{message}}
+			<div class="alert alert-success mt-4 alert-dismissible ">
+				<i class="bi-check-circle-fill"></i>
+				<strong class="mx-2">Succés!</strong>
+				{{ message }}
+				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 			</div>
 		{% endfor %}
 		{{form((form))}}

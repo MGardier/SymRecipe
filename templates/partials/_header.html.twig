@@ -1,33 +1,34 @@
 <!--navbar-->
-<nav class="navbar navbar-expand-lg bg-primary " data-bs-theme="dark">
+<nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom border-info ">
 	<div class="container-fluid">
-		<a class="navbar-brand text-white" href="{{ path('home.index')}}">Symrecipe</a>
+		<img src="{{ asset('build/img/logo.png') }}" class="mw-25 m-2 float-left" height="36">
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarColor01">
-			<ul class="navbar-nav me-auto">
+			<ul class="navbar-nav me-auto m-2">
 				<li class="nav-item">
-					<a class="nav-link active text-white" href="{{ path('home.index')}}">Accueil
-						<span class="visually-hidden">(current)</span>
+
+					<a class="nav-link active text-info" href="{{ path('home.index')}}">
+						<i class="bi bi-house-door-fill"></i>
+						Accueil
 					</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link active text-white" href="{{ path('recipe.community')}}">Les recettes de la communauté
+					<a class="nav-link active text-info" href="{{ path('recipe.community')}}">
+
+						Les recettes de la communauté
 					</a>
 				</li>
 				{% if app.user %}
 					<li class="nav-item">
-						<a class="nav-link active text-white" href="{{ path('ingredient.index')}}">Mes ingrédients
+						<a class="nav-link active text-info" href="{{ path('ingredient.index')}}">
+
+							Mes ingrédients
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link active text-white" href="{{ path('recipe.index')}}">Mes recettes
-						</a>
-					</li>
-				{% else %}
-					<li class="nav-item">
-						<a class="nav-link active text-white" href="{{ path('security.login')}}">Se connecter
+						<a class="nav-link active text-info" href="{{ path('recipe.index')}}">Mes recettes
 						</a>
 					</li>
 				{% endif %}
@@ -55,18 +56,20 @@
 								<a class="dropdown-item " href="{{ path('security.logout')}}">Déconnexion</a>
 							</div>
 						</li>
-
-
-					{% else %}
-						<li class="nav-item">
-							<a class="nav-link active text-white btn-inscription" href="{{ path('security.registration')}}">s'inscrire
-							</a>
-						</li>
-
 					{% endif %}
 				</ul>
 			</div>
 		</div>
-		
+		{% if app.user %}
+			<button class="navbar-toggler text-info" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon bg-info"></span>
+			</button>
+		{% else %}
+			<div class="collapse navbar-collapse justify-content-end">
+				<a class=" btn btn-outline-info  m-2" href="{{ path('security.login')}}">Se connecter</a>
+			</div>
+		{% endif %}
+
+
 	</nav>
 	<!-- end navbar-->

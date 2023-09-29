@@ -30,13 +30,12 @@ class MarkType extends AbstractType
                     'class' => 'form-label mt-4'
                 ]
             ])
-            ->add('submit',SubmitType::class,[
+            ->add('submit', SubmitType::class, [
                 'label' => 'Modifier',
-                'attr'=>[
-                    'class' => 'btn btn-primary mt-4',
+                'attr' => [
+                    'class' => 'btn btn-info mt-4',
                 ]
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -7,8 +7,11 @@
 
 	<div class="container mt-4">
 		{% for message in app.flashes('success') %}
-			<div class="text-white alert alert-success">
-				{{message}}
+			<div class="alert alert-success mt-4 alert-dismissible ">
+				<i class="bi-check-circle-fill"></i>
+				<strong class="mx-2">Succés!</strong>
+				{{ message }}
+				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 			</div>
 		{% endfor %}
 		{% if not recipes.items is same as([]) %}
@@ -25,7 +28,7 @@
 			</div>
 			<table class="table table-hover">
 				<thead>
-					<tr class="table-primary">
+					<tr class="table-info">
 						<th scope="col">Numéro</th>
 						<th scope="col">Nom</th>
 						<th scope="col">Temps</th>
@@ -55,10 +58,10 @@
 							<td>{{recipe.createdAt|date('d/m/Y')}}</td>
 							<td>{{recipe.updatedAt|date('d/m/Y')}}</td>
 							<td>
-								<a href="{{ path('recipe.show', {id: recipe.id}) }}" type="button" class="btn btn-outline-primary">Voir</a>
+								<a href="{{ path('recipe.show', {id: recipe.id}) }}" type="button" class="btn btn-outline-info">Voir</a>
 							</td>
 							<td>
-								<a href="{{ path('recipe.update', {id: recipe.id}) }}" type="button" class="btn btn-outline-primary">Modifier</a>
+								<a href="{{ path('recipe.update', {id: recipe.id}) }}" type="button" class="btn btn-outline-info">Modifier</a>
 							</td>
 							<td>
 								<a href="{{ path('recipe.delete', {id: recipe.id}) }}" type="button" class="btn btn-outline-danger">Supprimer</a>
@@ -76,7 +79,7 @@
 				Il n'y a pas de recettes
 			</h4>
 		{% endif %}
-		<a href="{{ path('recipe.create')}}" class="btn btn-primary mt-4">
+		<a href="{{ path('recipe.create')}}" class="btn btn-info mt-4">
 			Ajouter une nouvelle recette
 		</a>
 	</div>

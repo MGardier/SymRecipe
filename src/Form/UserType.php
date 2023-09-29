@@ -16,57 +16,55 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('fullName',TextType::class,[
-            'attr' => [
-                'class' => 'form-control',
-                'minlenght' => 2,
-                'maxlenght' => 50,
-            ],
-            'label' => 'Nom / Prénom',
-            'label_attr' => [
-                'class' => 'form-label mt-4',
-            ],
-            'constraints' => [
-                new Assert\Length(['min' => 2, 'max' => 50]),
-                new Assert\NotBlank()
-            ]
+            ->add('fullName', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'minlenght' => 2,
+                    'maxlenght' => 50,
+                ],
+                'label' => 'Nom / Prénom',
+                'label_attr' => [
+                    'class' => 'form-label mt-4',
+                ],
+                'constraints' => [
+                    new Assert\Length(['min' => 2, 'max' => 50]),
+                    new Assert\NotBlank()
+                ]
 
 
-        ])
-        ->add('pseudo',TextType::class,[
-            'attr' => [
-                'class' => 'form-control',
-                'minlenght' => 2,
-                'maxlenght' => 50,
-            ],
-            'required' => false,
-            'label' => 'Pseudo (facultatif)',
-            'label_attr' => [
-                'class' => 'form-label mt-4',
-            ],
-            'constraints' => [
-                new Assert\Length(['min' => 2, 'max' => 50]),
-            ]
+            ])
+            ->add('pseudo', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'minlenght' => 2,
+                    'maxlenght' => 50,
+                ],
+                'required' => false,
+                'label' => 'Pseudo (facultatif)',
+                'label_attr' => [
+                    'class' => 'form-label mt-4',
+                ],
+                'constraints' => [
+                    new Assert\Length(['min' => 2, 'max' => 50]),
+                ]
 
 
-        ])
-        ->add('plainPassword',PasswordType::class,[
-            'attr' => [
-                'class' => 'form-control',
-            ],
-            'label' => 'Mot de passe',
-            'label_attr' => [
-                'class' => 'form-label mt-4',
-            ],
-        ])
-        ->add('submit',SubmitType::class,[
-            'label' => 'Modifier',
-            'attr'=>[
-                'class' => 'btn btn-primary mt-4',
-            ]
-        ])
-
-        ;
+            ])
+            ->add('plainPassword', PasswordType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'label' => 'Mot de passe',
+                'label_attr' => [
+                    'class' => 'form-label mt-4',
+                ],
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Modifier',
+                'attr' => [
+                    'class' => 'btn btn-info mt-4',
+                ]
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -6,14 +6,20 @@
 {% block body %}
 	<div class="container">
 		{% for message in app.flashes('success') %}
-			<div class="alert alert-success mt-4">
+			<div class="alert alert-success mt-4 alert-dismissible ">
+				<i class="bi-check-circle-fill"></i>
+				<strong class="mx-2">Succés!</strong>
 				{{ message }}
+				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 			</div>
 		{% endfor %}
 
 		{% for message in app.flashes('danger') %}
-			<div class="alert alert-success mt-4">
+			<div class="alert alert-danger alert-dismissible d-flex align-items-center fade show">
+				<i class="bi-exclamation-octagon-fill"></i>
+				<strong class="mx-2">Erreur!</strong>
 				{{ message }}
+				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 			</div>
 		{% endfor %}
 

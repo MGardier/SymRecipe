@@ -6,9 +6,13 @@
 {% block body %}
 
 	<div class="container mt-4">
+
 		{% for message in app.flashes('success') %}
-			<div class="alert alert-success mt-4">
+			<div class="alert alert-success mt-4 alert-dismissible ">
+				<i class="bi-check-circle-fill"></i>
+				<strong class="mx-2">Succés!</strong>
 				{{ message }}
+				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 			</div>
 		{% endfor %}
 		<h1 class="mt-4">Mes ingrédients</h1>
@@ -20,9 +24,9 @@
 					ingrédient(s) au total
 				</h4>
 			</div>
-			<table class="table table-hover">
-				<thead>
-					<tr class="table-primary">
+			<table class="table">
+				<thead class=" bg-info">
+					<tr class="">
 						<th class="th-id" scope="col">Numéro</th>
 						<th class="th-name" scope="col">Nom</th>
 						<th class="th-price" scope="col">Prix</th>
@@ -39,7 +43,7 @@
 							<td class="data-ingredient">{{ingredient.price|number_format(2, '.', ',') }}€</td>
 							<td class="data-ingredient">{{ingredient.createdAt|date('d/m/Y')}}</td>
 							<td class="data-ingredient">
-								<a href="{{ path('ingredient.update', {id: ingredient.id}) }}" type="button" class="btn btn-outline-primary">Modifier</a>
+								<a href="{{ path('ingredient.update', {id: ingredient.id}) }}" type="button" class="btn btn-outline-info">Modifier</a>
 							</td>
 							<td class="data-ingredient">
 								<a href="{{ path('ingredient.delete', {id: ingredient.id}) }}" type="button" class="btn btn-outline-danger">Supprimer</a>
@@ -56,8 +60,9 @@
 				Il n'y a pas d'ingrédients
 			</h4>
 		{% endif %}
-		<a href="{{ path('ingredient.create')}}" class="btn btn-primary mt-4">
+		<a href="{{ path('ingredient.create')}}" class="btn btn-info mt-4">
 			Ajouter un nouvel ingrédient</a>
 	</div>
+
 
 {% endblock %}

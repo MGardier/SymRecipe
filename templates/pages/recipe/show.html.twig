@@ -5,13 +5,87 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">
-	<div class="mt-4">
-		{% for message in app.flashes('success') %}
-			<div class="text-dark alert alert-success">
-				{{message}}
+	<div class="container">
+		<div class="mt-4">
+			{% for message in app.flashes('success') %}
+				<div class="alert alert-success mt-4 alert-dismissible ">
+					<i class="bi-check-circle-fill"></i>
+					<strong class="mx-2">Succés!</strong>
+					{{ message }}
+					<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+				</div>
+			{% endfor %}
+			<h1 class="mt-4">{{recipe.name}}</h1>
+			<div class="recipe_image  ">
+				<img class="img-thumbnail w-25" src="{{ vich_uploader_asset(recipe, 'imageFile')}}"/>
 			</div>
-		{% endfor %}
-		<h1 class="mt-4">{{recipe.name}}</h1>
-		<div class="recipe_image  ">
-			<imgLaCréeTempsTempsPourNombreDifficultéDifficultéPrix class="img-thumbnail w-25" src="{{ vich_uploader_asset(recipe, 'imageFile')}}" </div> <p clas="mt-4"> moyenne de cette recette est de {{recipe.average|round }} /5 </p> <div class="mt-4"> <span class="badge bg-primary"> le : {{recipe.createdAt|date('d-m-Y')}} </span> </div> <div class="mt-4"> {% if recipe.time %} <p> (en minute) : {{recipe.time|min_to_hour}} </p> {% else %} <p> non renseigné</p> {% endif %} </div> <div class="mt-4"> {% if recipe.numberPeople %} <p> : {{recipe.numberPeople}} personnes </p> {% else %} <p> de personnes non renseigné</p> {% endif %} </div> <div class="mt-4"> {% if recipe.difficulty %} <p> : {{recipe.difficulty}} personnes </p> {% else %} <p> non renseigné</p> {% endif %} </div> <div class="mt-4"> <p> : {{recipe.price}} € </p> </div> <div class="mt-4"> {{ recipe.description|raw }} </div> <div class="mt-4"> {% for ingredient in recipe.ingredients %} <span class="badge bg-primary"> {{ingredient.name}} </span> {% endfor %} </div> </div> {% if form %} <div class="mark mt-4"> {{ form(form) }} </div> {% endif %} {% endblock %}
+			<p clas="mt-4">
+				moyenne de cette recette est de
+				{{recipe.average|round }}
+				/5
+			</p>
+			<div class="mt-4">
+				<span class="badge bg-info">
+					le :
+					{{recipe.createdAt|date('d-m-Y')}}
+				</span>
+			</div>
+			<div class="mt-4">
+				{% if recipe.time %}
+					<p>
+						(en minute) :
+						{{recipe.time|min_to_hour}}
+					</p>
+				{% else %}
+					<p>
+						non renseigné</p>
+				{% endif %}
+			</div>
+			<div class="mt-4">
+				{% if recipe.numberPeople %}
+					<p>
+						:
+						{{recipe.numberPeople}}
+						personnes
+					</p>
+				{% else %}
+					<p>
+						de personnes non renseigné</p>
+				{% endif %}
+			</div>
+			<div class="mt-4">
+				{% if recipe.difficulty %}
+					<p>
+						:
+						{{recipe.difficulty}}
+						personnes
+					</p>
+				{% else %}
+					<p>
+						non renseigné</p>
+				{% endif %}
+			</div>
+			<div class="mt-4">
+				<p>
+					:
+					{{recipe.price}}
+					€
+				</p>
+			</div>
+			<div class="mt-4">
+				{{ recipe.description|raw }}
+			</div>
+			<div class="mt-4">
+				{% for ingredient in recipe.ingredients %}
+					<span class="badge bg-info">
+						{{ingredient.name}}
+					</span>
+				{% endfor %}
+			</div>
+		</div>
+		{% if form %}
+			<div class="mark mt-4">
+				{{ form(form) }}
+				</div>
+			{% endif %}
+		{% endblock %}

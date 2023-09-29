@@ -13,6 +13,17 @@ Encore
   .setPublicPath("/build")
   // only needed for CDN's or subdirectory deploy
   //.setManifestKeyPrefix('build/')
+  .copyFiles({
+    from: "./assets/img",
+
+    // optional target path, relative to the output dir
+    to: "img/[path][name].[hash:8].[ext]",
+
+    // if versioning is enabled, add the file hash too
+    //to: 'images/[path][name].[hash:8].[ext]',
+    // only copy files matching this pattern
+  })
+  //pattern: /\.(png|jpg|jpeg)$/
 
   /*
    * ENTRY CONFIG
