@@ -15,7 +15,7 @@ body {
   background-color: #fff;
   font-weight: 300;
 }
-p {
+.home p {
   color: darken(#ccc, 10%);
   font-weight: 300;
 }
@@ -205,7 +205,9 @@ h2 {
 }
 
 // navbar
-
+.navbar {
+  background-color: #f9f9f9;
+}
 .navbar a {
   font-family: "Sora";
   font-weight: 400;

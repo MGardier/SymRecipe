@@ -18,6 +18,15 @@ class UserController extends AbstractController
 {
 
 
+    #[IsGranted('ROLE_USER')]
+    #[Route('/utilisateur/profil/{id}', name: 'user.show', methods: ['GET', 'POST'])]
+    public function show(User $user): Response
+    {
+        if ($user === $this->getUser())
+            return $this->render('pages/user/show.html.twig', ['user' => $user]);
+        else
+            return $this->redirectToRoute('home.index');
+    }
 
     /**
      * This controller allow user  to change his profile
