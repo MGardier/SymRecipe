@@ -1,75 +1,65 @@
-<!--navbar-->
-<nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom border-info ">
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg  p-3">
 	<div class="container-fluid">
-		<img src="{{ asset('build/img/logo.png') }}" class="mw-25 m-2 float-left" height="36">
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+		<img href="{{ path('home.index')}}" src="{{ asset('build/img/logo.png') }}" class="mw-25  float-left" height="36">
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-		<div class="collapse navbar-collapse" id="navbarColor01">
-			<ul class="navbar-nav me-auto m-2">
-				<li class="nav-item">
 
-					<a class="nav-link active text-info" href="{{ path('home.index')}}">
-						<i class="bi bi-house-door-fill"></i>
-						Accueil
-					</a>
+		<div class=" collapse navbar-collapse" id="navbarNavDropdown">
+			<ul class="navbar-nav ms-auto ">
+				<li class="nav-item">
+					<a class="nav-link mx-2 active" aria-current="page" href="{{ path('home.index')}}">Accueil</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link active text-info" href="{{ path('recipe.community')}}">
-
-						Les recettes de la communauté
-					</a>
+					<a class="nav-link" href="{{ path('recipe.community')}}">Recettes partagées</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('ingredient.index')}}">Ingrédients</a>
 				</li>
 				{% if app.user %}
 					<li class="nav-item">
-						<a class="nav-link active text-info" href="{{ path('ingredient.index')}}">
+						<a class="nav-link" href="{{ path('security.logout')}}">Profil</a>
+					</li>
 
-							Mes ingrédients
+					<li class="nav-item dropdown">
+						<a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							{{app.user.fullName }}
+						</a>
+						<ul class="dropdown-menu p-2" aria-labelledby="navbarDropdownMenuLink">
+							{% if 'ROLE_ADMIN' in app.user.roles %}
+								<li>
+									<a class="dropdown-item " href="{{ path('admin')}}">Administration</a>
+								</li>
+							{% else %}
+								<li>
+									<a class="dropdown-item" href="{{ path('recipe.index')}}">Mes recettes</a>
+								</li>
+								<li>
+									<a class="nav-link" href="{{ path('ingredient.index')}}">Mes ingrédients</a>
+								</li>
+								<li>
+									<a class="dropdown-item " href="{{ path('contact.create')}}">Nous contacter</a>
+								</li>
+								<li>
+									<a class="dropdown-item " href="{{ path('contact.create')}}">Mon profil</a>
+								</li>
+								<li>
+									<a class="dropdown-item " href="{{ path('security.logout')}}">Déconnexion</a>
+								</li>
+							{% endif %}
+						</ul>
+					</li>
+				{% else %}
+					<li>
+						<a class="nav-link" href="{{ path('security.login')}}">
+							Connexion
 						</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link active text-info" href="{{ path('recipe.index')}}">Mes recettes
-						</a>
-					</li>
+
 				{% endif %}
 			</ul>
-			<div class="d-flex btn">
-				<ul class="navbar-nav me-auto">
-					{% if app.user %}
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-								{{app.user.fullName }}
-							</a>
-							<div class="dropdown-menu mt-3" aria-labelledby="navbarDropdown">
-
-								{% if 'ROLE_ADMIN' in app.user.roles %}
-									<a class="dropdown-item " href="{{ path('admin')}}">Administration</a>
-									<a class="dropdown-item " href="{{ path('user.update.password',{id : app.user.id})}}">Modifier mon mot de passe</a>
-								{% else %}
-									<a class="dropdown-item " href="{{ path('contact.create')}}">Nous contacter</a>
-									<a class="dropdown-item " href="{{ path('user.update',{id : app.user.id})}}">Modifier mes informations</a>
-									<a class="dropdown-item " href="{{ path('user.update.password',{id : app.user.id})}}">Modifier mon mot de passe</a>
-
-								{% endif %}
-
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item " href="{{ path('security.logout')}}">Déconnexion</a>
-							</div>
-						</li>
-					{% endif %}
-				</ul>
-			</div>
 		</div>
-		{% if app.user %}
-			<button class="navbar-toggler text-info" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon bg-info"></span>
-			</button>
-		{% else %}
-			<div class="collapse navbar-collapse justify-content-end">
-				<a class=" btn btn-outline-info  m-2" href="{{ path('security.login')}}">Se connecter</a>
-			</div>
-		{% endif %}
-
-
-	</nav>
-	<!-- end navbar-->
+	</div>
+</nav>
+<!-- Navbar -->

@@ -1,4 +1,5 @@
 $info: #086bb3;
+$color-link: #333333;
 $font-family-sans-serif-2: "Poppins", sans-serif;
 $font-family-serif: "Source Serif Pro", serif;
 
@@ -8,8 +9,9 @@ $font-family-serif: "Source Serif Pro", serif;
 @import "~owl.carousel/dist/assets/owl.carousel";
 @import "~owl.carousel";
 
+@import "@fontsource/sora/latin.css";
+
 body {
-  font-family: $font-family-sans-serif;
   background-color: #fff;
   font-weight: 300;
 }
@@ -29,7 +31,7 @@ h6,
 .h4,
 .h5,
 .h6 {
-  font-family: $font-family-sans-serif;
+  font-family: "Sora";
 }
 a {
   transition: 0.3s all ease;
@@ -200,4 +202,19 @@ h2 {
   background-color: $primary;
   opacity: 0.2;
   border: 2px solid $primary;
+}
+
+// navbar
+
+.navbar a {
+  font-family: "Sora";
+  font-weight: 400;
+  letter-spacing: 1px;
+  &:hover,
+  &:focus {
+    text-decoration: none !important;
+    outline: none !important;
+    box-shadow: none;
+    color: $info;
+  }
 }
